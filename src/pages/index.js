@@ -18,6 +18,11 @@ const DateSpan = styled.span`
   color: #bbb;
 `;
 
+const Linker = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
+
 const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
@@ -30,7 +35,9 @@ const IndexPage = ({ data }) => (
       {
         data.allMarkdownRemark.edges.map(({ node }) => (
           <PageWrapper>
-            <h2>{node.frontmatter.title}{" "}</h2>
+            <Linker to={node.fields.slug}>
+              <h2>{node.frontmatter.title}{" "}</h2>
+            </Linker>
             <DateSpan>— {node.frontmatter.date}</DateSpan>
             <p>{node.excerpt}</p>
           </PageWrapper>
@@ -49,6 +56,9 @@ export const query = graphql`
           frontmatter {
             title
             date(formatString: "DD MMMM, YYYY")
+          }
+          fields {
+            slug
           }
           excerpt
         }
